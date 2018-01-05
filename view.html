@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Id}}</title>
+
+    <style>
+        div {
+            float: left;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+
+<h1>{{.Id}}</h1>
+
+<div>
+    Author: {{.Author.Username}}
+</div>
+<div>
+    Time: {{.Time}}
+</div>
+<br>
+<div>
+    {{.Text}}
+</div>
+
+</body>
+</html>
