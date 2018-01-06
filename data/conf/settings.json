@@ -1,0 +1,1 @@
+{"PortNumber":"4443","SessionTimeout":15,"PostDirectory":"posts/","PostSuffix":".post","KeyDirectory":"","KeyFile":"key.pem","CertFile":"cert.pem","TemplateDirectory":"www","TemplateSuffix":".html"}
