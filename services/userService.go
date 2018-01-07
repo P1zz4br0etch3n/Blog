@@ -28,7 +28,7 @@ func LoadUsers() error {
 		return nil
 	}
 
-	err := ReadJsonFile("users", UserDir, &users)
+	err := ReadJsonFile(UserDir, "users", &users)
 	if err != nil {
 		log.Println("Could not read Users-File. Creating new file with default values...")
 		e := saveUsers()

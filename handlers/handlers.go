@@ -84,7 +84,7 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 
 func ViewHandler(w http.ResponseWriter, r *http.Request, id string) {
 	var b models.Blog
-	e := services.ReadJsonFile(id, services.BlogDir, &b)
+	e := services.ReadJsonFile(services.BlogDir, id, &b)
 	if e != nil {
 		log.Println(e.Error())
 		http.Redirect(w, r, "/", http.StatusFound)

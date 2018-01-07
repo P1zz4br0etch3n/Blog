@@ -44,7 +44,7 @@ func SaveSettings() error {
 }
 
 func readSettingsFile() error {
-	err := ReadJsonFile("settings", SettingsDir, &global.Settings)
+	err := ReadJsonFile(SettingsDir, "settings", &global.Settings)
 	if err != nil {
 		log.Println("Could not read Settings-File. Creating new file with default values...")
 		e := SaveSettings()

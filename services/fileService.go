@@ -20,14 +20,14 @@ const (
 )
 
 func WriteJsonFile(dir, name string, o interface{}) error {
-	jsonBlog, e := json.Marshal(o)
+	jsonData, e := json.Marshal(o)
 	if e != nil {
 		return e
 	}
-	return saveDataFile(dir, name + ".json", jsonBlog)
+	return saveDataFile(dir, name + ".json", jsonData)
 }
 
-func ReadJsonFile(name, dir string, v interface{}) error {
+func ReadJsonFile(dir, name string, v interface{}) error {
 	jsonData, e := readDataFile(dir, name + ".json")
 	if e != nil {
 		return e

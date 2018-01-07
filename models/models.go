@@ -15,9 +15,9 @@ type User struct {
 }
 
 type Comment struct {
-	Text   string
-	Time   time.Time
-	Author string
+	Text     string
+	Time     time.Time
+	Nickname string
 }
 
 type Blog struct {
