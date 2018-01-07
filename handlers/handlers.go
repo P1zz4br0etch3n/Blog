@@ -145,6 +145,30 @@ func ArchiveHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "index", pageData)
 }
 
+func MyPostsHandler(w http.ResponseWriter, r *http.Request) {
+	//Fetch name of the author
+	var authorname string
+	session, err := services.CheckSession(r)
+	if err == nil {
+		authorname = session.UserName
+	} else {
+		//Redirect if no session available
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	postsFromAuthor, err := services.GetAllPostsFromUser(authorname)
+
+	pageData := pages.IndexPage{
+		UserLoggedIn:    true,
+		ShowArchiveLink: true,
+		UserName:        authorname,
+		Posts:           postsFromAuthor,
+	}
+
+	renderTemplate(w, "myposts", pageData)
+}
+
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if strings.ToUpper(r.Method) == http.MethodGet {
 		//If there is a session running redirect to index

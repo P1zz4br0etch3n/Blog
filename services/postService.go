@@ -68,14 +68,7 @@ func GetAllPostsFromUser(username string) (retPosts []models.BlogPost, err error
 		return []models.BlogPost{{PostID:"0", Content:"No Posts."}}, nil
 	}
 
-	var length = 0
-	for _, p := range posts {
-		if p.Author == username {
-			length++
-		}
-	}
-
-	filteredPosts := make([]models.BlogPost, length)
+	var filteredPosts []models.BlogPost
 	for i, p := range posts {
 		if p.Author == username {
 			filteredPosts = append(filteredPosts, posts[i])

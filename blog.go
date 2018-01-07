@@ -38,7 +38,7 @@ func main() {
 	http.HandleFunc("/comment", makeHandler(handlers.CommentHandler))
 	http.HandleFunc("/newpost", makeHandler(handlers.NewPostHandler))
 	http.HandleFunc("/archive", makeHandler(handlers.ArchiveHandler))
-	//http.HandleFunc("/myposts", handlers.MyPostsHandler)
+	http.HandleFunc("/myposts", makeHandler(handlers.MyPostsHandler))
 	//http.HandleFunc("/change", handlers.ChangePostHandler)
 	//go http.ListenAndServe(":80", http.HandlerFunc(handlers.TlsRedirect))
 	go http.ListenAndServeTLS(":" + global.Settings.PortNumber, global.Settings.CertFile, global.Settings.KeyFile, nil)
