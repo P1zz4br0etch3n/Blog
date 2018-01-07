@@ -3,3 +3,22 @@
 */
 
 package services
+
+import (
+	"testing"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestLoadUsers(t *testing.T) {
+	LoadUsers()
+	saveUsers()
+	succ := VerifyUser("root", "toor")
+	assert.True(t, succ == nil)
+}
+
+func TestAddUser(t *testing.T) {
+	LoadUsers()
+	AddUser("newUser", "möp")
+	succ := VerifyUser("newUser", "möp")
+	assert.True(t, succ == nil)
+}
