@@ -11,12 +11,18 @@
 	\section{Architekturdokumentation}
 	\section{Anwenderdokumentation}
 	\section{Inbetriebnahme}
-		\subsection{Start ohne Anpassung}
 		Der Server kann g\"anzlich ohne Anpassungen gestartet werden.
 		Die Standardeinstellungen sehen wie folgt aus:
+		\begin{tabular}{l|l}
+			PortNumber &     4443\\
+			SessionTimeout & 15\\
+			PostSuffix & .json\\
+			KeyFile & key.pem\\
+			CertFile & cert.pem\\
+		\end{tabular}\\
+		Die Standardeinstellungen werden von den Einstallungen in der settings-Datei \"uberschrieben, die wiederum von den Einstellungen der CommandLine Parameter \"uberschreibene werden, vorrausgesetzt diese existieren jeweils.
 		
-		\subsection{Anpassung der Konfiguration}
-		\subsection{Start des Servers}
+		Standardm\"a{\ss}ig ist auch ein root Benutzer eingerichtet, der folgende Logindaten hat: Name: "root", Passwort:"toor".
 		\subsection{Serverinformationen via REPL}
 		\"Uber einen sog. "Read Eval Print Loop" ist es m\"oglich im laufenden Betrieb Informationen abzurufen.
 		Das Kommando "?" zeigt die Befehle an, die akzeptiert werden. Die Befehle sehen folgenderma{\ss}en aus:\\\\
@@ -42,6 +48,7 @@
 			\item Handler und Redirect (redirect to index, tls redirect) Logik
 			\item Zertifikate
 			\item Unit Tests f\"ur PostsService und UserService
+			\item Dokumentation
 		\end{itemize}		
 		\subsection{5836402}
 \end{document}
