@@ -76,7 +76,6 @@ func TestGetAllPostsFromUser(t *testing.T) {
 }
 
 func TestSavePost(t *testing.T) {
-	/*TODO @Aron*/
 	LoadPosts()
 	SavePost(models.BlogPost{PostID:"1",Content:"Post Content.", Author:"Auth"})
 	post := LoadPostByPath("1")
