@@ -10,13 +10,13 @@
 <hr>
 {{range .Posts}}
 <p><b>{{.Author}}</b> wrote at <b>{{.Date}}</b>:</p>
-<form method="post" action="/change">
+<form method="POST" action="/change">
     <input type="text" name="content" value="{{.Content}}"> <br>
     <input type="hidden" name="postID" value="{{.PostID}}">
     <input type="hidden" name="action" value="edit">
     <input type="submit" value="Edit">
 </form>
-<form method="post" action="/change">
+<form method="POST" action="/change">
     <input type="hidden" name="postID" value="{{.PostID}}">
     <input type="hidden" name="action" value="delete">
     <input type="submit" value="Delete">

@@ -18,7 +18,7 @@
 		{{range .Comments}}
 			<p><b>{{.Nickname}}</b> commented: <i>{{.Content}}</i></p>
 		{{end}}	
-		<form method="POST" action="/comment/">
+		<form method="POST" action="/comment">
 			<input type="text" name="comment" placeholder="Comment">
 			<input type="text" name="nickname" placeholder="Nickname">
 			<input type="hidden" name="postID" value="{{.PostID}}">
@@ -29,7 +29,7 @@
 	
 	{{if .UserLoggedIn}}
 		<p>New Post:</p>
-		<form method="post" action="/newpost/">
+		<form method="POST" action="/newpost">
 			<input type="text" name="content" placeholder="Content">
 			<input type="hidden" name="author" value="{{.UserName}}">
 			<input type="submit"value="Post">
@@ -39,7 +39,7 @@
 		<a href="/logout">Logout ({{.UserName}})</a>
 		<a href="/chpass">Change Password</a>
 	{{else}}
-		<a href="/login/">Login</a>
+		<a href="/login">Login</a>
 	{{end}}
 </body>
 </html>

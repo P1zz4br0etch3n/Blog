@@ -52,7 +52,6 @@ func readSettingsFile() error {
 			return errors.New("Could not create default Settings-File.")
 		}
 	}
-	log.Println("Reading Settings-File done.")
 	return nil
 }
 
