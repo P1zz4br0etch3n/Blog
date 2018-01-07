@@ -12,7 +12,15 @@ import (
 	"time"
 )
 
+func PrepareTests() {
+	LoadPosts()
+	SavePost(models.BlogPost{})
+	DeletePost("1")
+}
+
 func TestLoadPosts(t *testing.T) {
+	PrepareTests()
+
 	LoadPosts()
 	post, err := GetMostRecentPost()
 	assert.True(t, post.PostID == "0" && err == nil)
