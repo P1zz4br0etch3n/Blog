@@ -11,4 +11,17 @@
 	\section{Architekturdokumentation}
 	\section{Anwenderdokumentation}
 	\section{Inbetriebnahme}
+		\subsection{Anpassung der Konfiguration}
+		\subsection{Serverinformationen via REPL}
+		\"Uber einen sog. "Read Eval Print Loop" ist es m\"oglich im laufenden Betrieb Informationen abzurufen.
+		Das Kommando "?" zeigt die Befehle an, die akzeptiert werden. Die Befehle sehen folgenderma{\ss}en aus:\\\\
+		\begin{tabular}{l|l|l}
+			Kommando   & Effekt   & Beschreibung\\
+			\hline
+			q          & quit     & Beendet den Server\\
+			s          & settings & Gibt die aktuell aktiven Einstellungen aus\\
+			v          & version  & Gibt die Versionsnummer aus\\
+			u          & users    & Gibt alle aktiven User aus (alle Users mit Session)\\
+			(r config) & -        & Undocumented: L\"adt die Konfiguration neu
+		\end{tabular}
 \end{document}
