@@ -21,6 +21,7 @@ func LoadSettings() error {
 
 	e := readSettingsFile()
 	if e != nil {
+		log.Println(e)
 		return e
 	}
 	parseCommandLineArgs()
@@ -29,8 +30,8 @@ func LoadSettings() error {
 	return nil
 }
 
-func ForceLoadSettingsFile() {
-	readSettingsFile()
+func ForceLoadSettingsFile() error {
+	return readSettingsFile()
 }
 
 func SaveSettings() error {
@@ -48,7 +49,7 @@ func readSettingsFile() error {
 		log.Println("Could not read Settings-File. Creating new file with default values...")
 		e := SaveSettings()
 		if e != nil {
-			return errors.New("Could not create default settings file.")
+			return errors.New("Could not create default Settings-File.")
 		}
 	}
 	log.Println("Reading Settings-File done.")

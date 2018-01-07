@@ -42,7 +42,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		uname := r.FormValue("username")
 		passwd := r.FormValue("password")
-		e := services.AuthenticateUser(uname, passwd)
+		_, e := services.VerifyUser(uname, passwd)
 		if e != nil {
 			log.Println(e.Error())
 			http.Error(w, "unauthorized", http.StatusUnauthorized)

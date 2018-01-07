@@ -9,7 +9,6 @@ import (
 	"regexp"
 	"de/vorlesung/projekt/2416160-5836402/handlers"
 	"de/vorlesung/projekt/2416160-5836402/services"
-	"log"
 	"de/vorlesung/projekt/2416160-5836402/global"
 )
 
@@ -18,7 +17,10 @@ var validPath = regexp.MustCompile("^/(edit|save|view|login)/([a-zA-Z0-9]*)$")
 func main() {
 	e := services.LoadSettings()
 	if e != nil {
-		log.Fatal(e)
+		return
+	}
+	e = services.LoadUsers()
+	if e != nil {
 		return
 	}
 

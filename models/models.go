@@ -9,8 +9,9 @@ import (
 )
 
 type User struct {
-	Username string
-	Password string
+	UserName     string
+	PasswordHash string
+	Salt         string
 }
 
 type Comment struct {
