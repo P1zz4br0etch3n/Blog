@@ -33,6 +33,13 @@ func TestVerifyUser(t *testing.T) {
 	os.RemoveAll(dataDir)
 }
 
+func TestVerifyUser2(t *testing.T) {
+	LoadUsers()
+	succ := VerifyUser("root", "möp")
+	assert.True(t, succ.Error() == "wrong password")
+	os.RemoveAll(dataDir)
+}
+
 func TestChangePassword(t *testing.T) {
 	LoadUsers()
 	ChangePassword("root", "toor", "test")
