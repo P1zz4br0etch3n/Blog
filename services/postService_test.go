@@ -76,9 +76,15 @@ func TestGetAllPostsFromUser(t *testing.T) {
 }
 
 func TestSavePost(t *testing.T) {
+	SetPostManagerSettings(".json")
 	LoadPosts()
-	SavePost(models.BlogPost{PostID:"1",Content:"Post Content.", Author:"Auth"})
-	post := LoadPostByPath("1")
-	assert.True(t, post.PostID == "1" && post.Author == "Auth" && post.Content == "Post Content.")
+	NewPost(models.BlogPost{Content:"Post Content.", Author:"Auth"})
+	post, _ := GetMostRecentPost()
+	SavePost(post)
+	postLoaded := LoadPostByPath("1.json")
+	assert.True(t, postLoaded.PostID == "1")
+	assert.True(t, postLoaded.Author == "Auth")
+	assert.True(t, postLoaded.Content == "Post Content.")
+
 	os.RemoveAll(dataDir)
 }
