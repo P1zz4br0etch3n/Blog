@@ -78,7 +78,7 @@ func CheckSession(r *http.Request) (*models.Session, error) {
 	return nil, errors.New("Session invalid.")
 }
 
-func GenerateCookie() (*http.Cookie, error) {
+func GenerateSessionCookie() (*http.Cookie, error) {
 	sessionId, e := generateSessionId()
 	if e != nil {
 		return nil, e

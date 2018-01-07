@@ -91,6 +91,7 @@ func LoadPosts() {
 	files, err := ioutil.ReadDir(filepath.Join(dataDir, PostsDir))
 	if err != nil {
 		log.Println(err)
+		return
 	}
 
 	for _, f := range files {
