@@ -50,3 +50,22 @@ func TestReadJsonFile(t *testing.T) {
 
 	os.RemoveAll(dataDir)
 }
+
+func TestDeleteDataFile(t *testing.T) {
+	filename := "test.txt"
+	path := filepath.Join(dataDir, TestDir)
+
+	e := os.MkdirAll(path, perm)
+	assert.NoError(t, e)
+
+	e = ioutil.WriteFile(filepath.Join(path, filename), []byte("Test321"), perm)
+	assert.NoError(t, e)
+
+	e = deleteDataFile(TestDir, filename)
+	assert.NoError(t, e)
+
+	_, err := os.Stat(filepath.Join(path, filename))
+	assert.Error(t, err)
+
+	os.RemoveAll(dataDir)
+}

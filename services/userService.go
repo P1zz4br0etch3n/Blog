@@ -10,7 +10,6 @@ import (
 	"crypto/md5"
 	"crypto/sha512"
 	"encoding/hex"
-	"fmt"
 	"log"
 	"crypto/rand"
 )
@@ -132,7 +131,7 @@ func generateSalt() string {
 	_, err := rand.Read(data)
 
 	if err != nil {
-		fmt.Println("Could not read random data.")
+		log.Println("Could not read random data.")
 	}
 
 	hashFunc := sha512.New()
