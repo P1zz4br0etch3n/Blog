@@ -36,8 +36,8 @@ func main() {
 	http.HandleFunc("/logout", makeHandler(handlers.LogoutHandler))
 	http.HandleFunc("/chpass", makeHandler(handlers.ChangePasswordHandler))
 	http.HandleFunc("/comment", makeHandler(handlers.CommentHandler))
-	//http.HandleFunc("/newpost", handlers.NewPostHandler)
-	//http.HandleFunc("/archive", handlers.ArchiveHandler)
+	http.HandleFunc("/newpost", makeHandler(handlers.NewPostHandler))
+	http.HandleFunc("/archive", makeHandler(handlers.ArchiveHandler))
 	//http.HandleFunc("/myposts", handlers.MyPostsHandler)
 	//http.HandleFunc("/change", handlers.ChangePostHandler)
 	//go http.ListenAndServe(":80", http.HandlerFunc(handlers.TlsRedirect))
@@ -68,7 +68,7 @@ func repl() {
 
 		switch cmd {
 		case "?":
-			fmt.Println("q - quit\ns - settings\nv - version\nu - users\n")
+			fmt.Println("q - quit\ns - settings\nv - version\nu - users")
 		case "q":
 			os.Exit(0)
 		case "s":
