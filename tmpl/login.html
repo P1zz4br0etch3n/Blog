@@ -3,10 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Login</h1>
+
+<div class="error">{{.}}</div>
+<br>
 
 <form method="POST" action="/login/" >
     <table>

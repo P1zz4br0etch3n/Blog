@@ -44,3 +44,9 @@ type Settings struct {
 	TemplateDirectory string
 	TemplateSuffix    string
 }
+
+type Session struct {
+	UserName string
+	Expires  time.Time
+	Timer    *time.Timer
+}

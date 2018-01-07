@@ -51,30 +51,30 @@ func saveUsers() error {
 	return nil
 }
 
-func VerifyUser(userName, password string) (success bool, err error) {
+func VerifyUser(userName, password string) error {
 	for _, user := range users {
 		if user.UserName == userName {
 			salt := user.Salt
 			genHash := calculateHash(password, salt)
 			if genHash == user.PasswordHash {
-				return true, nil
+				return nil
 			} else {
-				return false, errors.New("wrong password")
+				return errors.New("wrong password")
 			}
 		}
 	}
 
-	return false, errors.New("user does not exist")
+	return errors.New("user does not exist")
 }
 
 func AddUser(userName, password string) error {
-	//if !usersLoaded {
-	//	e := LoadUsers()
-	//	if e != nil {
-	//		log.Println("Could not add user. User-File not loaded.")
-	//		return e
-	//	}
-	//}
+	if !usersLoaded {
+		e := LoadUsers()
+		if e != nil {
+			log.Println("Could not add user. User-File not loaded.")
+			return e
+		}
+	}
 
 	for _, user := range users {
 		if user.UserName == userName {
@@ -96,8 +96,8 @@ func AddUser(userName, password string) error {
 	return nil
 }
 
-func ChangePassword(userName, oldPassword, newPassword string) (success bool, err error) {
-	if legit, err := VerifyUser(userName, oldPassword); legit {
+func ChangePassword(userName, oldPassword, newPassword string) error {
+	if err := VerifyUser(userName, oldPassword); err == nil {
 		for i, user := range users {
 			if user.UserName == userName {
 				salt := generateSalt()
@@ -107,10 +107,13 @@ func ChangePassword(userName, oldPassword, newPassword string) (success bool, er
 				users[i].Salt = salt
 			}
 		}
-		saveUsers()
-		return true, nil
+		err = saveUsers()
+		if err != nil {
+			return errors.New("Couldn't change password. Save User-File failed.")
+		}
+		return nil
 	} else {
-		return false, err
+		return errors.New("Couldn't change password. VerifyUser failed.")
 	}
 }
 

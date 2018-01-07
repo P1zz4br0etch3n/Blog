@@ -12,7 +12,7 @@ import (
 	"de/vorlesung/projekt/2416160-5836402/global"
 )
 
-var validPath = regexp.MustCompile("^/(edit|save|view|login)/([a-zA-Z0-9]*)$")
+var validPath = regexp.MustCompile("^/(edit|save|view|login|logout)/([a-zA-Z0-9]*)$")
 
 func main() {
 	e := services.LoadSettings()
@@ -27,6 +27,7 @@ func main() {
 	http.HandleFunc("/", handlers.IndexHandler)
 	http.HandleFunc("/view/", makeResourceHandler(handlers.ViewHandler))
 	http.HandleFunc("/login/", makeHandler(handlers.LoginHandler))
+	http.HandleFunc("/logout/", makeHandler(handlers.LogoutHandler))
 	http.ListenAndServeTLS(":" + global.Settings.PortNumber, global.Settings.CertFile, global.Settings.KeyFile, nil)
 }
 
@@ -49,7 +50,7 @@ func makeHandler(fn func(w http.ResponseWriter, r *http.Request)) http.HandlerFu
 			return
 		}
 		if m[2] != "" {
-			http.Redirect(w, r, m[1], http.StatusFound)
+			http.Redirect(w, r, m[1] + "/", http.StatusFound)
 			return
 		}
 		fn(w, r)

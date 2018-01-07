@@ -6,5 +6,16 @@
 </head>
 <body>
 <h1>{{.Title}}</h1>
+
+{{if .UserLoggedIn}}
+<p>
+    Welcome User: {{.UserName}} <br>
+    <a href="/logout">Logout</a>
+</p>
+{{else}}
+<p>
+    <a href="/login">Login</a>
+</p>
+{{end}}
 </body>
 </html>

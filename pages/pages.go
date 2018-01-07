@@ -12,4 +12,6 @@ type BlogPage struct {
 
 type IndexPage struct {
 	Title string
+	UserLoggedIn bool
+	UserName string
 }
