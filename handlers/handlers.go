@@ -7,29 +7,12 @@ package handlers
 import (
 	"net/http"
 	"de/vorlesung/projekt/2416160-5836402/services"
-	"path/filepath"
-	"html/template"
 	"log"
-	"de/vorlesung/projekt/2416160-5836402/pages"
 	"de/vorlesung/projekt/2416160-5836402/models"
 	"strings"
 	"de/vorlesung/projekt/2416160-5836402/global"
 	"github.com/pkg/errors"
 )
-
-var templates = template.Must(template.ParseFiles(
-	filepath.Join("tmpl", "index.html"),
-	filepath.Join("tmpl", "login.html"),
-	filepath.Join("tmpl", "myposts.html"),
-	filepath.Join("tmpl", "chpass.html"),
-))
-
-func renderTemplate(w http.ResponseWriter, tmpl string, page interface{}) {
-	e := templates.ExecuteTemplate(w, tmpl+".html", page)
-	if e != nil {
-		http.Error(w, e.Error(), http.StatusInternalServerError)
-	}
-}
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	//Just for Fun
@@ -41,7 +24,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	newestPost, err := services.GetMostRecentPost()
 
-	pageData := pages.IndexPage{
+	pageData := models.IndexPage{
 		UserLoggedIn:    false,
 		ShowArchiveLink: true,
 		UserName:        "",
@@ -55,7 +38,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		pageData.UserLoggedIn = true
 	}
 
-	renderTemplate(w, "index", pageData)
+	services.RenderTemplate(w, "index", pageData)
 }
 
 func ChangePasswordHandler(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +73,7 @@ func ChangePasswordHandler(w http.ResponseWriter, r *http.Request) {
 		err = nil
 	}
 
-	renderTemplate(w, "chpass", err)
+	services.RenderTemplate(w, "chpass", err)
 }
 
 func CommentHandler(w http.ResponseWriter, r *http.Request) {
@@ -140,7 +123,7 @@ func NewPostHandler(w http.ResponseWriter, r *http.Request) {
 func ArchiveHandler(w http.ResponseWriter, r *http.Request) {
 	allPosts, err := services.GetAllPosts()
 
-	pageData := pages.IndexPage{
+	pageData := models.IndexPage{
 		UserLoggedIn:    false,
 		ShowArchiveLink: false,
 		UserName:        "",
@@ -153,7 +136,7 @@ func ArchiveHandler(w http.ResponseWriter, r *http.Request) {
 		pageData.UserName = session.UserName
 	}
 
-	renderTemplate(w, "index", pageData)
+	services.RenderTemplate(w, "index", pageData)
 }
 
 func MyPostsHandler(w http.ResponseWriter, r *http.Request) {
@@ -170,14 +153,14 @@ func MyPostsHandler(w http.ResponseWriter, r *http.Request) {
 
 	postsFromAuthor, err := services.GetAllPostsFromUser(authorname)
 
-	pageData := pages.IndexPage{
+	pageData := models.IndexPage{
 		UserLoggedIn:    true,
 		ShowArchiveLink: true,
 		UserName:        authorname,
 		Posts:           postsFromAuthor,
 	}
 
-	renderTemplate(w, "myposts", pageData)
+	services.RenderTemplate(w, "myposts", pageData)
 }
 
 func ChangePostHandler(w http.ResponseWriter, r *http.Request) {
@@ -209,7 +192,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
-		renderTemplate(w, "login", nil)
+		services.RenderTemplate(w, "login", nil)
 	}
 
 	if strings.ToUpper(r.Method) == http.MethodPost {
@@ -220,14 +203,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			cookie, err := services.GenerateCookie()
 			if err != nil {
-				renderTemplate(w, "login", err)
+				services.RenderTemplate(w, "login", err)
 			}
 			services.GenerateSession(username, cookie.Value)
 			http.SetCookie(w, cookie)
 
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
-		renderTemplate(w, "login", err)
+		services.RenderTemplate(w, "login", err)
 	}
 }
 

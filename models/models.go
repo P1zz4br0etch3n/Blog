@@ -49,3 +49,10 @@ type Session struct {
 	Expires  time.Time
 	Timer    *time.Timer
 }
+
+type IndexPage struct {
+	UserLoggedIn    bool
+	ShowArchiveLink bool
+	UserName        string
+	Posts           []BlogPost
+}
