@@ -14,7 +14,6 @@ import (
 	"bufio"
 	"os"
 	"strings"
-	"de/vorlesung/projekt/WebBlog/settingsManager"
 )
 
 const version = "0.0.1 pre-alpha"
@@ -36,7 +35,7 @@ func main() {
 	http.HandleFunc("/login/", makeHandler(handlers.LoginHandler))
 	http.HandleFunc("/logout/", makeHandler(handlers.LogoutHandler))
 	http.HandleFunc("/chpass/", makeHandler(handlers.ChangePasswordHandler))
-	//http.HandleFunc("/comment", handlers.CommentHandler)
+	http.HandleFunc("/comment/", makeHandler(handlers.CommentHandler))
 	//http.HandleFunc("/newpost", handlers.NewPostHandler)
 	//http.HandleFunc("/archive", handlers.ArchiveHandler)
 	//http.HandleFunc("/myposts", handlers.MyPostsHandler)
@@ -51,7 +50,7 @@ func makeResourceHandler(fn func(w http.ResponseWriter, r *http.Request, id stri
 	return func(w http.ResponseWriter, r *http.Request) {
 		m := validPath.FindStringSubmatch(r.URL.Path)
 		if m == nil {
-			http.Redirect(w, r, "/index", http.StatusFound)
+			http.Redirect(w, r, "/", http.StatusFound)
 			return
 		}
 		fn(w, r, m[2])
@@ -97,7 +96,7 @@ func repl() {
 			}
 		case "r":
 			if strings.Contains(text, "config") {
-				settingsManager.ForceLoadSettingsFile()
+				services.ForceLoadSettingsFile()
 			}
 		default:
 			if cmd != "" {

@@ -13,8 +13,8 @@ import (
 	"de/vorlesung/projekt/2416160-5836402/pages"
 	"de/vorlesung/projekt/2416160-5836402/models"
 	"strings"
-	"errors"
 	"de/vorlesung/projekt/2416160-5836402/global"
+	"github.com/pkg/errors"
 )
 
 var templates = template.Must(template.ParseFiles(
@@ -89,6 +89,33 @@ func ChangePasswordHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	renderTemplate(w, "chpass", err)
+}
+
+func CommentHandler(w http.ResponseWriter, r *http.Request) {
+	nickname := r.FormValue("nickname")
+	comment := r.FormValue("comment")
+	postID := r.FormValue("postID")
+
+	//Prevent ugly empty names
+	if strings.Trim(nickname, " ") == "" {
+		nickname = "anonymous"
+	} else {
+		//User is not anonymous set nickname
+		cookie := &http.Cookie{
+			Name:   "nickname",
+			Value:  nickname,
+			MaxAge: 60*60*24*3650,
+			Path: "/",
+			Secure: true,
+		}
+		http.SetCookie(w, cookie)
+	}
+
+	services.AppendCommentToPost(postID, &models.Comment{Content:comment, Nickname:nickname})
+
+	//TODO direct to archive if user comes from archive
+
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
