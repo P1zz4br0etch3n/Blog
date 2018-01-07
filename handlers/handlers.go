@@ -117,8 +117,36 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
+func NewPostHandler(w http.ResponseWriter, r *http.Request) {
+	content := r.FormValue("content")
+	author := r.FormValue("author")
+
+	services.NewPost(models.BlogPost{Author:author, Content:content})
+
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+}
+
+func ArchiveHandler(w http.ResponseWriter, r *http.Request) {
+	allPosts, err := services.GetAllPosts()
+
+	pageData := pages.IndexPage{
+		UserLoggedIn:    false,
+		ShowArchiveLink: false,
+		UserName:        "",
+		Posts:           allPosts,
+	}
+
+	session, err := services.CheckSession(r)
+	if err == nil {
+		pageData.UserLoggedIn = true
+		pageData.UserName = session.UserName
+	}
+
+	renderTemplate(w, "index", pageData)
+}
+
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
+	if strings.ToUpper(r.Method) == http.MethodGet {
 		//If there is a session running redirect to index
 		_, err := services.CheckSession(r)
 		if err == nil {
@@ -127,7 +155,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		renderTemplate(w, "login", nil)
 	}
 
-	if r.Method == http.MethodPost {
+	if strings.ToUpper(r.Method) == http.MethodPost {
 		//Validate user and redirect to index after successful login
 		username := r.FormValue("username")
 		password := r.FormValue("password")
