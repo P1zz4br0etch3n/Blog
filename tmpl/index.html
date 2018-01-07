@@ -8,6 +8,8 @@
 	<h1>GoBlog</h1>
 	{{if .ShowArchiveLink}}
 		<a href="/archive">Archive - Show me all Posts</a>
+    {{else}}
+        <a href="/">Index - Show me the newest Post</a>
 	{{end}}
 	<hr>
 	{{range .Posts}}	
@@ -37,7 +39,7 @@
 		<a href="/logout">Logout ({{.UserName}})</a>
 		<a href="/chpass">Change Password</a>
 	{{else}}
-		<a href="/login">Login</a>
+		<a href="/login/">Login</a>
 	{{end}}
 </body>
 </html>

@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	BlogDir     = "blogs"
+	PostsDir     = "posts"
 	UserDir     = "users"
 	SettingsDir = "conf"
 	dataDir     = "data"
@@ -56,6 +56,11 @@ func readDataFile(dir, name string) ([]byte, error) {
 		return nil, e
 	}
 	return file, nil
+}
+
+func deleteDataFile(dir, name string) (error) {
+	path := filepath.Join(dataDir, dir, name)
+	return os.Remove(path)
 }
 
 func mkdirIfNotExist(dir string) error {

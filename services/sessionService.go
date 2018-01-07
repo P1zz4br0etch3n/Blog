@@ -19,6 +19,14 @@ import (
 var sessionMap = make(map[string]*models.Session)
 var lock sync.Mutex
 
+func GetOnlineUserNames() []string {
+	var names []string
+	for _, value := range sessionMap {
+		names = append(names, value.UserName)
+	}
+	return names
+}
+
 func getSessionTimeout() time.Duration {
 	return time.Duration(global.Settings.SessionTimeout) * time.Minute
 }

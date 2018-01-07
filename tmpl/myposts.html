@@ -6,15 +6,19 @@
 </head>
 <body>
 <h1>GoBlog</h1>
+<a href="/">Index - Show me the newest Post</a>
+<hr>
 {{range .Posts}}
 <p><b>{{.Author}}</b> wrote at <b>{{.Date}}</b>:</p>
-<p>{{.Content}}</p>
-<form method="post" action="/">
+<form method="post" action="/change">
+    <input type="text" name="content" value="{{.Content}}"> <br>
     <input type="hidden" name="postID" value="{{.PostID}}">
+    <input type="hidden" name="action" value="edit">
     <input type="submit" value="Edit">
 </form>
-<form method="post" action="/">
+<form method="post" action="/change">
     <input type="hidden" name="postID" value="{{.PostID}}">
+    <input type="hidden" name="action" value="delete">
     <input type="submit" value="Delete">
 </form>
 <hr>

@@ -9,9 +9,12 @@ import (
 	"de/vorlesung/projekt/2416160-5836402/services"
 	"path/filepath"
 	"html/template"
-	"de/vorlesung/projekt/2416160-5836402/pages"
 	"log"
+	"de/vorlesung/projekt/2416160-5836402/pages"
 	"de/vorlesung/projekt/2416160-5836402/models"
+	"strings"
+	"errors"
+	"de/vorlesung/projekt/2416160-5836402/global"
 )
 
 var templates = template.Must(template.ParseFiles(
@@ -30,20 +33,62 @@ func renderTemplate(w http.ResponseWriter, tmpl string, page interface{}) {
 }
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	page := pages.IndexPage{
-		Title: "Welcome to our Blog!",
+	//Just for Fun
+	query := r.URL.Query()
+	msg := query.Get("sendDeveloperMessage")
+	if msg != "" {
+		log.Println(msg)
 	}
 
+	newestPost, err := services.GetMostRecentPost()
+
+	pageData := pages.IndexPage{
+		UserLoggedIn:    false,
+		ShowArchiveLink: true,
+		UserName:        "",
+		Posts:           []models.BlogPost{newestPost},
+	}
+
+	//Check if user is logged in
 	session, err := services.CheckSession(r)
-	if err != nil {
-		renderTemplate(w, "index", page)
-		return
+	if err == nil {
+		pageData.UserName = session.UserName
+		pageData.UserLoggedIn = true
 	}
 
-	page.UserLoggedIn = true
-	page.UserName = session.UserName
+	renderTemplate(w, "index", pageData)
+}
 
-	renderTemplate(w, "index", page)
+func ChangePasswordHandler(w http.ResponseWriter, r *http.Request) {
+	oldpwd := r.FormValue("oldpwd")
+	newpwd1 := r.FormValue("newpwd1")
+	newpwd2 := r.FormValue("newpwd2")
+
+	//Get username from session
+	var username string
+	session, err := services.CheckSession(r)
+	if err == nil {
+		username = session.UserName
+	}
+
+	if newpwd1 == newpwd2 {
+		err := services.ChangePassword(username, oldpwd, newpwd1)
+		if err == nil {
+			host := strings.Split(r.Host, ":")[0]
+			target := "https://" + host + ":" + global.Settings.PortNumber
+			http.Redirect(w, r, target, http.StatusTemporaryRedirect)
+		} else {
+			err = services.ChangePassword(username, oldpwd, newpwd1)
+		}
+	} else {
+		err = errors.New("the new passwords did not match")
+	}
+
+	if oldpwd == "" && newpwd1 == "" && newpwd2 == "" {
+		err = nil
+	}
+
+	renderTemplate(w, "chpass", err)
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -82,13 +127,4 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
-func ViewHandler(w http.ResponseWriter, r *http.Request, id string) {
-	var b models.Blog
-	e := services.ReadJsonFile(services.BlogDir, id, &b)
-	if e != nil {
-		log.Println(e.Error())
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	}
-	renderTemplate(w, "view", b)
-}
+

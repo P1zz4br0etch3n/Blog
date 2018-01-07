@@ -15,18 +15,17 @@ type User struct {
 }
 
 type Comment struct {
-	Text     string
-	Time     time.Time
 	Nickname string
+	Date     time.Time
+	Content  string
 }
 
-type Blog struct {
-	Id       string
-	Title    string
-	Text     string
-	Time     time.Time
-	Author   *User
-	Comments []*Comment
+type BlogPost struct {
+	PostID   string
+	Author   string
+	Date     time.Time
+	Content  string
+	Comments []Comment
 }
 
 type Settings struct {

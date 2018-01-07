@@ -17,17 +17,16 @@ import (
 const TestDir string = "test"
 
 func TestWriteJsonFile(t *testing.T) {
-	blog := models.Blog{
-		Id:       "999999999",
-		Title:    "titel",
-		Text:     "text",
-		Time:     time.Now(),
-		Author:   nil,
+	blog := models.BlogPost{
+		PostID:   "999999999",
+		Content:  "text",
+		Date:     time.Now(),
+		Author:   "p1zz4br0etch3n",
 		Comments: nil,
 	}
 
-	WriteJsonFile(TestDir, blog.Id, blog)
-	path := filepath.Join(dataDir, TestDir, blog.Id + ".json")
+	WriteJsonFile(TestDir, blog.PostID, blog)
+	path := filepath.Join(dataDir, TestDir, blog.PostID+".json")
 
 	assert.FileExists(t, path, "File not found.")
 
@@ -35,19 +34,19 @@ func TestWriteJsonFile(t *testing.T) {
 }
 
 func TestReadJsonFile(t *testing.T) {
-	var blog models.Blog
+	var blog models.BlogPost
 	path := filepath.Join(dataDir, TestDir, "1000.json")
 
 	e := os.MkdirAll(filepath.Join(dataDir, TestDir), perm)
 	assert.NoError(t, e)
 
-	e = ioutil.WriteFile(path, []byte("{\"id\":\"1000\",\"Title\":\"Titel\",\"Text\":\"Beispieltext\",\"Time\":\"2018-01-05T22:14:25.8565125+01:00\",\"Author\":{\"Username\":\"p1zz4br0etch3n\",\"Password\":\"test\"},\"Comments\":null}"), perm)
+	e = ioutil.WriteFile(path, []byte("{\"PostID\":\"1000\",\"Content\":\"Beispieltext\",\"Date\":\"2018-01-05T22:14:25.8565125+01:00\",\"Author\":\"p1zz4br0etch3n\",\"Comments\":null}"), perm)
 	assert.NoError(t, e)
 
 	e = ReadJsonFile(TestDir, "1000", &blog)
 	assert.NoError(t, e)
 
-	assert.Equal(t, "1000", blog.Id)
+	assert.Equal(t, "1000", blog.PostID)
 
 	os.RemoveAll(dataDir)
 }

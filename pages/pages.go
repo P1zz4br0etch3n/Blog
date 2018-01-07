@@ -4,14 +4,13 @@
 
 package pages
 
-import "de/vorlesung/projekt/2416160-5836402/models"
-
-type BlogPage struct {
-	Data *models.Blog
-}
+import (
+	"de/vorlesung/projekt/2416160-5836402/models"
+)
 
 type IndexPage struct {
-	Title string
-	UserLoggedIn bool
-	UserName string
+	UserLoggedIn    bool
+	ShowArchiveLink bool
+	UserName        string
+	Posts           []models.BlogPost
 }
