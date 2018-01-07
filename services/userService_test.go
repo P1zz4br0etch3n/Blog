@@ -7,6 +7,7 @@ package services
 import (
 	"testing"
 	"github.com/stretchr/testify/assert"
+	"os"
 )
 
 func TestLoadUsers(t *testing.T) {
@@ -14,6 +15,7 @@ func TestLoadUsers(t *testing.T) {
 	saveUsers()
 	succ := VerifyUser("root", "toor")
 	assert.True(t, succ == nil)
+	os.RemoveAll(dataDir)
 }
 
 func TestAddUser(t *testing.T) {
@@ -21,12 +23,14 @@ func TestAddUser(t *testing.T) {
 	AddUser("newUser", "möp")
 	succ := VerifyUser("newUser", "möp")
 	assert.True(t, succ == nil)
+	os.RemoveAll(dataDir)
 }
 
 func TestVerifyUser(t *testing.T) {
 	LoadUsers()
 	succ := VerifyUser("idonotexist", "möp")
 	assert.True(t, succ.Error() == "user does not exist")
+	os.RemoveAll(dataDir)
 }
 
 func TestChangePassword(t *testing.T) {
@@ -34,4 +38,5 @@ func TestChangePassword(t *testing.T) {
 	ChangePassword("root", "toor", "test")
 	succ := VerifyUser("root", "test")
 	assert.True(t, succ == nil)
+	os.RemoveAll(dataDir)
 }
