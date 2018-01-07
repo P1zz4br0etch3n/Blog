@@ -22,3 +22,16 @@ func TestAddUser(t *testing.T) {
 	succ := VerifyUser("newUser", "möp")
 	assert.True(t, succ == nil)
 }
+
+func TestVerifyUser(t *testing.T) {
+	LoadUsers()
+	succ := VerifyUser("idonotexist", "möp")
+	assert.True(t, succ.Error() == "user does not exist")
+}
+
+func TestChangePassword(t *testing.T) {
+	LoadUsers()
+	ChangePassword("root", "toor", "test")
+	succ := VerifyUser("root", "test")
+	assert.True(t, succ == nil)
+}
