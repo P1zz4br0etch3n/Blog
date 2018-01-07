@@ -2,20 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{.Title}}</title>
+    <title>GoBlog</title>
 </head>
 <body>
-<h1>{{.Title}}</h1>
-
-{{if .UserLoggedIn}}
-<p>
-    Welcome User: {{.UserName}} <br>
-    <a href="/logout">Logout</a>
-</p>
-{{else}}
-<p>
-    <a href="/login">Login</a>
-</p>
-{{end}}
+	<h1>GoBlog</h1>
+	{{if .ShowArchiveLink}}
+		<a href="/archive">Archive - Show me all Posts</a>
+	{{end}}
+	<hr>
+	{{range .Posts}}	
+		<p><b>{{.Author}}</b> wrote at <b>{{.Date}}</b>:</p>
+		<p>{{.Content}}</p>
+		{{range .Comments}}
+			<p><b>{{.Nickname}}</b> commented: <i>{{.Content}}</i></p>
+		{{end}}	
+		<form method="post" action="/comment">
+			<input type="text" name="comment" placeholder="Comment">
+			<input type="text" name="nickname" placeholder="Nickname">
+			<input type="hidden" name="postID" value="{{.PostID}}">
+			<input type="submit" value="Comment">
+		</form>
+		<hr>
+	{{end}}
+	
+	{{if .UserLoggedIn}}
+		<p>New Post:</p>
+		<form method="post" action="/newpost">
+			<input type="text" name="content" placeholder="Content">
+			<input type="hidden" name="author" value="{{.UserName}}">
+			<input type="submit"value="Post">
+		</form>
+        <a href="/myposts">My Posts</a>
+        <br>
+		<a href="/logout">Logout ({{.UserName}})</a>
+		<a href="/chpass">Change Password</a>
+	{{else}}
+		<a href="/login">Login</a>
+	{{end}}
 </body>
 </html>

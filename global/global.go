@@ -12,8 +12,8 @@ var Settings = models.Settings{
 	PostDirectory:  "posts/",
 	PostSuffix:     ".post",
 
-	KeyFile:      "key.pem",
-	CertFile:     "cert.pem",
+	KeyFile:  "key.pem",
+	CertFile: "cert.pem",
 
 	TemplateDirectory: "www",
 	TemplateSuffix:    ".html",

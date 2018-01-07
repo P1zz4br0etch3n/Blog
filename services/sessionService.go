@@ -17,8 +17,11 @@ import (
 )
 
 var sessionMap = make(map[string]*models.Session)
-var sessionTimeout = time.Duration(global.Settings.SessionTimeout) * time.Minute
 var lock sync.Mutex
+
+func getSessionTimeout() time.Duration {
+	return time.Duration(global.Settings.SessionTimeout) * time.Minute
+}
 
 func DestroySession(r *http.Request) {
 	cookie, err := GetSessionCookie(r)
@@ -34,7 +37,7 @@ func GenerateSession(username, sessionId string) {
 	lock.Lock()
 	defer lock.Unlock()
 
-	timer := time.AfterFunc(sessionTimeout, func() {
+	timer := time.AfterFunc(getSessionTimeout(), func() {
 		lock.Lock()
 		defer lock.Unlock()
 
@@ -43,7 +46,7 @@ func GenerateSession(username, sessionId string) {
 
 	session := models.Session{
 		UserName: username,
-		Expires:  time.Now().Add(sessionTimeout),
+		Expires:  time.Now().Add(getSessionTimeout()),
 		Timer:    timer,
 	}
 
@@ -61,7 +64,7 @@ func CheckSession(r *http.Request) (*models.Session, error) {
 	}
 	session := sessionMap[cookie.Value]
 	if session != nil {
-		session.Timer.Reset(sessionTimeout)
+		session.Timer.Reset(getSessionTimeout())
 		return session, nil
 	}
 	return nil, errors.New("Session invalid.")

@@ -18,6 +18,8 @@ var templates = template.Must(template.ParseFiles(
 	filepath.Join("tmpl", "index.html"),
 	filepath.Join("tmpl", "login.html"),
 	filepath.Join("tmpl", "view.html"),
+	filepath.Join("tmpl", "myposts.html"),
+	filepath.Join("tmpl", "chpass.html"),
 ))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, page interface{}) {

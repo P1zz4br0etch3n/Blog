@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GoBlog</title>
+</head>
+<body>
+<h1>GoBlog</h1>
+{{range .Posts}}
+<p><b>{{.Author}}</b> wrote at <b>{{.Date}}</b>:</p>
+<p>{{.Content}}</p>
+<form method="post" action="/">
+    <input type="hidden" name="postID" value="{{.PostID}}">
+    <input type="submit" value="Edit">
+</form>
+<form method="post" action="/">
+    <input type="hidden" name="postID" value="{{.PostID}}">
+    <input type="submit" value="Delete">
+</form>
+<hr>
+{{end}}
+
+{{if .UserLoggedIn}}
+<a href="/logout">Logout ({{.UserName}})</a>
+<a href="/chpass">Change Password</a>
+{{end}}
+</body>
+</html>
