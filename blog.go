@@ -20,7 +20,11 @@ const version = "0.0.1 pre-alpha"
 var validPath = regexp.MustCompile("^/(|login|logout|chpass|comment|newpost|archive|myposts|change)/?(.*)$")
 
 func main() {
-	e := services.LoadSettings()
+	e := services.LoadTemplates()
+	if e != nil {
+		return
+	}
+	e = services.LoadSettings()
 	if e != nil {
 		return
 	}

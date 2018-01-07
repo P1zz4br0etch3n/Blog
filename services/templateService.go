@@ -8,14 +8,22 @@ import (
 	"path/filepath"
 	"html/template"
 	"net/http"
+	"log"
 )
 
-var templates = template.Must(template.ParseFiles(
-	filepath.Join("tmpl", "index.html"),
-	filepath.Join("tmpl", "login.html"),
-	filepath.Join("tmpl", "myposts.html"),
-	filepath.Join("tmpl", "chpass.html"),
-))
+var templates *template.Template
+
+func LoadTemplates() error {
+	tmp, err := template.ParseFiles(
+		filepath.Join("tmpl", "index.html"),
+		filepath.Join("tmpl", "login.html"),
+		filepath.Join("tmpl", "myposts.html"),
+		filepath.Join("tmpl", "chpass.html"),
+	)
+	templates = tmp
+	log.Println(err)
+	return err
+}
 
 func RenderTemplate(w http.ResponseWriter, tmpl string, page interface{}) {
 	e := templates.ExecuteTemplate(w, tmpl+".html", page)
