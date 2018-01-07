@@ -16,3 +16,8 @@
 # GoLand project files
 *.iml
 .idea/
+
+# TeX Output
+*.aux
+*.log
+*.synctex.gz
