@@ -17,7 +17,7 @@ import (
 )
 
 const version = "0.0.1 pre-alpha"
-var validPath = regexp.MustCompile("^/(login|logout|chpass|comment|newpost|archive|myposts|change)/?(.*)$")
+var validPath = regexp.MustCompile("^/(|login|logout|chpass|comment|newpost|archive|myposts|change)/?(.*)$")
 
 func main() {
 	e := services.LoadSettings()
@@ -31,7 +31,7 @@ func main() {
 	services.SetPostManagerSettings(global.Settings.PostSuffix)
 	services.LoadPosts()
 
-	http.HandleFunc("/", handlers.IndexHandler)
+	http.HandleFunc("/", makeHandler(handlers.IndexHandler))
 	http.HandleFunc("/login", makeHandler(handlers.LoginHandler))
 	http.HandleFunc("/logout", makeHandler(handlers.LogoutHandler))
 	http.HandleFunc("/chpass", makeHandler(handlers.ChangePasswordHandler))
@@ -40,7 +40,7 @@ func main() {
 	http.HandleFunc("/archive", makeHandler(handlers.ArchiveHandler))
 	http.HandleFunc("/myposts", makeHandler(handlers.MyPostsHandler))
 	http.HandleFunc("/change", makeHandler(handlers.ChangePostHandler))
-	//go http.ListenAndServe(":80", http.HandlerFunc(handlers.TlsRedirect))
+	go http.ListenAndServe(":80", http.HandlerFunc(tlsRedirect))
 	go http.ListenAndServeTLS(":" + global.Settings.PortNumber, global.Settings.CertFile, global.Settings.KeyFile, nil)
 
 	repl()
@@ -55,6 +55,15 @@ func makeHandler(fn func(w http.ResponseWriter, r *http.Request)) http.HandlerFu
 		}
 		fn(w, r)
 	}
+}
+
+func tlsRedirect(w http.ResponseWriter, request *http.Request) {
+	host := strings.Split(request.Host, ":")[0]
+	target := "https://" + host + ":" + global.Settings.PortNumber + "/" + request.URL.Path
+	if len(request.URL.RawQuery) > 0 {
+		target += "?" + request.URL.RawQuery
+	}
+	http.Redirect(w, request, target, http.StatusMovedPermanently)
 }
 
 func repl() {
