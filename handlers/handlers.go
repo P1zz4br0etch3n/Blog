@@ -68,6 +68,9 @@ func ChangePasswordHandler(w http.ResponseWriter, r *http.Request) {
 	session, err := services.CheckSession(r)
 	if err == nil {
 		username = session.UserName
+	} else {
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
 	}
 
 	if newpwd1 == newpwd2 {
@@ -103,14 +106,14 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 		cookie := &http.Cookie{
 			Name:   "nickname",
 			Value:  nickname,
-			MaxAge: 60*60*24*3650,
-			Path: "/",
+			MaxAge: 60 * 60 * 24 * 3650,
+			Path:   "/",
 			Secure: true,
 		}
 		http.SetCookie(w, cookie)
 	}
 
-	services.AppendCommentToPost(postID, &models.Comment{Content:comment, Nickname:nickname})
+	services.AppendCommentToPost(postID, &models.Comment{Content: comment, Nickname: nickname})
 
 	//TODO direct to archive if user comes from archive
 
@@ -118,10 +121,18 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewPostHandler(w http.ResponseWriter, r *http.Request) {
+	_, err := services.CheckSession(r)
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
 	content := r.FormValue("content")
 	author := r.FormValue("author")
 
-	services.NewPost(models.BlogPost{Author:author, Content:content})
+	if content != "" && author != "" {
+		services.NewPost(models.BlogPost{Author: author, Content: content})
+	}
 
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
@@ -169,6 +180,28 @@ func MyPostsHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "myposts", pageData)
 }
 
+func ChangePostHandler(w http.ResponseWriter, r *http.Request) {
+	_, err := services.CheckSession(r)
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	postID := r.FormValue("postID")
+	content := r.FormValue("content")
+	action := r.FormValue("action")
+
+	if action == "delete" {
+		services.DeletePost(postID)
+
+		http.Redirect(w, r, "/myposts", http.StatusTemporaryRedirect)
+	} else if action == "edit" {
+		services.ChangePost(postID, content)
+
+		http.Redirect(w, r, "/myposts", http.StatusTemporaryRedirect)
+	}
+}
+
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if strings.ToUpper(r.Method) == http.MethodGet {
 		//If there is a session running redirect to index
@@ -204,5 +237,3 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	//Redirect to index
 	http.Redirect(w, r, "/", http.StatusFound)
 }
-
-
