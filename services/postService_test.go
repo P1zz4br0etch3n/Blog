@@ -78,7 +78,7 @@ func TestGetAllPostsFromUser(t *testing.T) {
 func TestSavePost(t *testing.T) {
 	/*TODO @Aron*/
 	LoadPosts()
-	SavePost(models.BlogPost{Content:"Post Content.", Author:"Auth"})
+	SavePost(models.BlogPost{PostID:"1",Content:"Post Content.", Author:"Auth"})
 	post := LoadPostByPath("1")
 	assert.True(t, post.PostID == "1" && post.Author == "Auth" && post.Content == "Post Content.")
 	os.RemoveAll(dataDir)
