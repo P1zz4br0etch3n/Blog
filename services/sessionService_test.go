@@ -4,8 +4,13 @@
 
 package services
 
-import "testing"
+import (
+	"testing"
+	"github.com/stretchr/testify/assert"
+)
 
 func TestGenerateSession(t *testing.T) {
-	GenerateSession("user", "1234567890")
+	GenerateSession("userName", "1234567890")
+	users := GetOnlineUserNames()
+	assert.Equal(t, users, []string{"userName"})
 }
