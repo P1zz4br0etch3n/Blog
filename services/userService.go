@@ -36,8 +36,6 @@ func LoadUsers() error {
 			return errors.New("Could not create default User-File.")
 		}
 	}
-	log.Println("Reading User-File done.")
-
 	usersLoaded = true
 	return nil
 }
