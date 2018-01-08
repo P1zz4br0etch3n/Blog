@@ -1,14 +1,37 @@
 \documentclass[10pt]{article}
 
 \usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
 
 \title{Dokumentation des Go-Projekts}
 \author{Von 2416160, 5836402}
 \date{}
 
 \begin{document}
-\maketitle
+    \maketitle
 	\section{Architekturdokumentation}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{Architektur.png}
+        %		\vspace{5mm}
+        \caption{Zusammenhang der einzelnen Komponenten}
+        \label{img:architektur}
+    \end{figure}
+    In Abbildung \ref{img:architektur} ist eine Übersicht über die Komponenten zu sehen. Die blauen Komponenten sind
+    Teil des Funktionsflusses und die grünen stellen Datenelemente dar. Das Programm beginnt in der Routine
+    \textit{blog.go} und registriert dort alle Handler. Außerdem ist dort das REPL umgesetzt. Bei Aufruf einer gültigen
+    URL wird der entsprechende Handler aufgerufen. Ein Handler ruft je nach Bedarf ein oder mehrere Services auf um
+    Daten abzurufen oder Funktionen auszuführen. Zum Beispiel kann er vom \textit{sessionService} die aktuelle Session
+    abfragen oder eine neue erstellen lassen sofern noch keine vorhanden ist. Die Session wird ihm dann in Form eines
+    \textit{structs}, das in Models definiert ist, übergeben. Alle verwendeten \textit{structs} sind im Package ''models''
+    definiert. Im Package ''data'' liegen alle Daten-Dateien für die Settings, die BlogPosts und die User, also alle Daten
+    die persistent gespeichert werden sollen. Die Settings sind hier nochmals besonders hervorgehoben, da sie zur
+    Laufzeit im Speicher global allen Funktionen zur Verfügung stehen sollen. Aus diesem Grund liegt ihre Instanz im
+    Package ''global''. Hat ein Handler alle Daten die er braucht und alle nötigen Funktionen ausgeführt, so wird er
+    entweder ein Template rendern und diesem Daten mitgeben oder einen Redirect auf einen anderen Handler starten.
+
 	\section{Anwenderdokumentation}
 	Beim Aufruf der Seite (lokal via "localhost") wird der Nutzer direkt auf die gesicherte https-Ansicht umgeleitet.
 	Auf der Startseite wird dem Nutzer der aktuellste Post dargestellt, falls verf\"ugbar.
@@ -35,7 +58,7 @@
 			CertFile & cert.pem\\
 		\end{tabular}\\
 		Die Standardeinstellungen werden von den Einstallungen in der settings-Datei \"uberschrieben, die wiederum von den Einstellungen der CommandLine Parameter \"uberschreibene werden, vorrausgesetzt diese existieren jeweils.
-		
+
 		Standardm\"a{\ss}ig ist auch ein root Benutzer eingerichtet, der folgende Logindaten hat: Name: "root", Passwort:"toor".
 		\subsection{Serverinformationen via REPL}
 		\"Uber einen sog. "Read Eval Print Loop" ist es m\"oglich im laufenden Betrieb Informationen abzurufen.
@@ -75,6 +98,6 @@
 			\item Zertifikate
 			\item Unit Tests f\"ur PostsService und UserService
 			\item Dokumentation
-		\end{itemize}		
+		\end{itemize}
 		\subsection{5836402}
 \end{document}
