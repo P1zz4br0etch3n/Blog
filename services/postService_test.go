@@ -13,21 +13,25 @@ import (
 )
 
 func PrepareTests() {
-	LoadPosts()
-	SavePost(models.BlogPost{})
-	DeletePost("1")
+	SetPostManagerSettings(".json")
+	posts = []models.BlogPost{}
+	lastPostID = 0
+	postsLoaded = false
 }
 
 func TestLoadPosts(t *testing.T) {
 	PrepareTests()
 
 	LoadPosts()
+	NewPost(models.BlogPost{Content:"Post Content.", Author:"Auth"})
 	post, err := GetMostRecentPost()
-	assert.True(t, post.PostID == "0" && err == nil)
+	assert.True(t, post.PostID == "1" && err == nil)
 	os.RemoveAll(dataDir)
 }
 
 func TestNewPost(t *testing.T) {
+	PrepareTests()
+
 	LoadPosts()
 	NewPost(models.BlogPost{Content:"Post Content.", Author:"Auth"})
 	post, err := GetMostRecentPost()
@@ -36,6 +40,8 @@ func TestNewPost(t *testing.T) {
 }
 
 func TestAppendCommentToPost(t *testing.T) {
+	PrepareTests()
+
 	LoadPosts()
 	NewPost(models.BlogPost{Content:"Post Content.", Author:"Auth"})
 	AppendCommentToPost("1", &models.Comment{"Nick", time.Now(), "C0nt3nt"})
@@ -45,6 +51,8 @@ func TestAppendCommentToPost(t *testing.T) {
 }
 
 func TestDeletePost(t *testing.T) {
+	PrepareTests()
+
 	LoadPosts()
 	NewPost(models.BlogPost{Content:"Post Content.", Author:"Auth"})
 	DeletePost("1")
@@ -54,6 +62,8 @@ func TestDeletePost(t *testing.T) {
 }
 
 func TestChangePost(t *testing.T) {
+	PrepareTests()
+
 	LoadPosts()
 	NewPost(models.BlogPost{Content:"Post Content.", Author:"Auth"})
 	ChangePost("1", "Im No Longer 'Post Content.'")
@@ -64,6 +74,8 @@ func TestChangePost(t *testing.T) {
 }
 
 func TestGetAllPosts(t *testing.T) {
+	PrepareTests()
+
 	LoadPosts()
 	NewPost(models.BlogPost{Content:"Post Content. (1)", Author:"Auth"})
 	NewPost(models.BlogPost{Content:"Post Content. (2)", Author:"Auth"})
@@ -74,6 +86,8 @@ func TestGetAllPosts(t *testing.T) {
 }
 
 func TestGetAllPostsFromUser(t *testing.T) {
+	PrepareTests()
+
 	LoadPosts()
 	NewPost(models.BlogPost{Content:"Post Content. (1)", Author:"Auth"})
 	NewPost(models.BlogPost{Content:"Post Content. (2)", Author:"AuthorAlternative"})
@@ -84,8 +98,10 @@ func TestGetAllPostsFromUser(t *testing.T) {
 }
 
 func TestSavePost(t *testing.T) {
-	SetPostManagerSettings(".json")
+	PrepareTests()
+
 	LoadPosts()
+	SetPostManagerSettings(".json")
 	NewPost(models.BlogPost{Content:"Post Content.", Author:"Auth"})
 	post, _ := GetMostRecentPost()
 	SavePost(post)
