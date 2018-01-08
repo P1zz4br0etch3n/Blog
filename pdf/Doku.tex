@@ -49,6 +49,18 @@
 			u          & users    & Gibt alle aktiven User aus (alle Users mit Session)\\
 			(r config) & -        & Undocumented: L\"adt die Konfiguration neu
 		\end{tabular}
+		\subsection{Einstellungen via CommandLine Parameter}
+		Folgende CommandLine Parameter stehen zur Verf\"ugung:
+		\begin{tabular}{l|l}
+			Parameter & Bedeutung\\
+			\hline
+			-port & \"Andert den Port der Anwendung\\
+			-timeout & Stellt den Session Timeout ein\\
+			-postSufx & Dateiendung der Posts\\
+			-keyFile & Name des Server-Schl\"ussels\\
+			-certFile & Name des Zertifikats
+		\end{tabular}\\
+		Beispiel: "blog -port=1234" Startet den Blog auf Port 1234.
 	\section{Beitrag zum Projekt}
 		\subsection{2416160}
 		\begin{itemize}
