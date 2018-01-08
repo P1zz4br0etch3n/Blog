@@ -10,6 +10,20 @@
 \maketitle
 	\section{Architekturdokumentation}
 	\section{Anwenderdokumentation}
+	Beim Aufruf der Seite (lokal via "localhost") wird der Nutzer direkt auf die gesicherte https-Ansicht umgeleitet.
+	Auf der Startseite wird dem Nutzer der aktuellste Post dargestellt, falls verf\"ugbar.
+	Unter der \"Uberschrift befindet sich ein Link zur Archivdarstellung, auf der sich alle Posts befinden, der sich auf der Archivdarstellung zu einem Link auf die Startseite \"andert.
+	Alle Posts sind mit den zugeh\"origen Kommentaren unterlegt, die von jedem Nutzer erstellt werden k\"onnen.
+	Vorausgesetzt der Nutzer besitzt ein Authorenkonto, kann er sich am unteren Ende der Seiten \"uber den Link "Login" einloggen.
+	Auf der Seite befinden sich lediglich die Felder f\"ur den Benutzernamen und das Passwort, bei Fehlschl\"agen wird ein Fehler angezeigt (z.B. "Falsches Passwort").
+	
+	Ist der Nutzer erfolgreich eingeloggt, kann er sich jederzeit \"uber den Link, wieder am unteren Ende der Seiten, ausloggen.
+	Ebenfalls ist es eingeloggten Nutzern m\"oglich Posts zu verfassen, und zwar \"uber das Feld und den Button "New Post", jeweils am unteren Ende der Auflistungen der Posts auf der Index- und Archivseiten.
+	Neben dem Logout Button am unteren Ende der Seite kann der eingeloggte Nutzer sein Passwort \"andern.
+	Zuletzt ist es eingeloggten Nutzern m\"oglich ihre eigenen Posts aufzulisten, \"uber den Link "My Posts" am unteren Ende der Seite.
+	Auf dieser Seite kann jeder Post einzeln editiert oder gel\"oscht werden.
+	
+	Nicht eingeloggte Nutzer die auf Authorenfunktionen zugreifen werden auf die Startseite zur\"ucknavigiert.
 	\section{Inbetriebnahme}
 		Der Server kann g\"anzlich ohne Anpassungen gestartet werden.
 		Die Standardeinstellungen sehen wie folgt aus:
