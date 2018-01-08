@@ -37,13 +37,13 @@
 	Auf der Startseite wird dem Nutzer der aktuellste Post dargestellt, falls verf\"ugbar.
 	Unter der \"Uberschrift befindet sich ein Link zur Archivdarstellung, auf der sich alle Posts befinden, der sich auf der Archivdarstellung zu einem Link auf die Startseite \"andert.
 	Alle Posts sind mit den zugeh\"origen Kommentaren unterlegt, die von jedem Nutzer erstellt werden k\"onnen.
-	Vorausgesetzt der Nutzer besitzt ein Authorenkonto, kann er sich am unteren Ende der Seiten \"uber den Link "Login" einloggen.
+	Vorausgesetzt der Nutzer besitzt ein Authorenkonto, kann er sich am unteren Ende der Seiten \"uber den Link ''Login'' einloggen.
 	Auf der Seite befinden sich lediglich die Felder f\"ur den Benutzernamen und das Passwort, bei Fehlschl\"agen wird ein Fehler angezeigt (z.B. "Falsches Passwort").
 	
 	Ist der Nutzer erfolgreich eingeloggt, kann er sich jederzeit \"uber den Link, wieder am unteren Ende der Seiten, ausloggen.
 	Ebenfalls ist es eingeloggten Nutzern m\"oglich Posts zu verfassen, und zwar \"uber das Feld und den Button "New Post", jeweils am unteren Ende der Auflistungen der Posts auf der Index- und Archivseiten.
 	Neben dem Logout Button am unteren Ende der Seite kann der eingeloggte Nutzer sein Passwort \"andern.
-	Zuletzt ist es eingeloggten Nutzern m\"oglich ihre eigenen Posts aufzulisten, \"uber den Link "My Posts" am unteren Ende der Seite.
+	Zuletzt ist es eingeloggten Nutzern m\"oglich ihre eigenen Posts aufzulisten, \"uber den Link ''My Posts'' am unteren Ende der Seite.
 	Auf dieser Seite kann jeder Post einzeln editiert oder gel\"oscht werden.
 	
 	Nicht eingeloggte Nutzer die auf Authorenfunktionen zugreifen werden auf die Startseite zur\"ucknavigiert.
@@ -61,8 +61,8 @@
 
 		Standardm\"a{\ss}ig ist auch ein root Benutzer eingerichtet, der folgende Logindaten hat: Name: "root", Passwort:"toor".
 		\subsection{Serverinformationen via REPL}
-		\"Uber einen sog. "Read Eval Print Loop" ist es m\"oglich im laufenden Betrieb Informationen abzurufen.
-		Das Kommando "?" zeigt die Befehle an, die akzeptiert werden. Die Befehle sehen folgenderma{\ss}en aus:\\\\
+		\"Uber einen sog. ''Read Eval Print Loop'' ist es m\"oglich im laufenden Betrieb Informationen abzurufen.
+		Das Kommando ''?'' zeigt die Befehle an, die akzeptiert werden. Die Befehle sehen folgenderma{\ss}en aus:\\\\
 		\begin{tabular}{l|l|l}
 			Kommando   & Effekt   & Beschreibung\\
 			\hline
@@ -82,8 +82,8 @@
 			-postSufx & Dateiendung der Posts\\
 			-keyFile & Name des Server-Schl\"ussels\\
 			-certFile & Name des Zertifikats
-		\end{tabular}\\
-		Beispiel: "blog -port=1234" Startet den Blog auf Port 1234.
+		\end{tabular}\\\\
+		Beispiel: ''blog -port=1234'' Startet den Blog auf Port 1234.
 	\section{Beitrag zum Projekt}
 		\subsection{2416160}
 		\begin{itemize}
@@ -100,4 +100,15 @@
 			\item Dokumentation
 		\end{itemize}
 		\subsection{5836402}
+		\begin{itemize}
+			\item Entwurf und Umsetzung der Anwendungsarchitektur
+			\item Entwurf und Implementierung der Dateisystem-Funktionen
+			\item Entwurf und Implementierung des SessionHandlings
+			\item Entwurf und Implementierung der Template Funktionen
+			\item Schutz der entsprechenden Pfade vor unauthorisiertem Zugriff (CheckSession)
+			\item Implementierung des makeHandler-Wrappers zum Schutz vor ungültigen Pfadaufrufen
+			\item Zertifikate
+			\item Tests für FileService
+			\item Dokumentation
+		\end{itemize}
 \end{document}
